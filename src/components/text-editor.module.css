@@ -1,0 +1,21 @@
+/* text-editor.module.css */
+
+/* Make editor text blue */
+.customEditor .bn-container .bn-editor * {
+  color: blue;
+}
+
+/* Make slash menu hovered items blue */
+.customEditor .bn-container .bn-suggestion-menu-item[aria-selected="true"],
+.customEditor .bn-container .bn-suggestion-menu-item:hover {
+  background-color: blue;
+  color: white; /* Optional: Change text color for better contrast */
+}
+
+/* Optional: Add border and shadow to the editor */
+.customEditor .bn-container {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

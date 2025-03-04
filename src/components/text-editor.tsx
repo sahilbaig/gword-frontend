@@ -3,22 +3,29 @@ import "@blocknote/core/fonts/inter.css";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
+import { Button } from "./ui/button";
 
-import styles from "./text-editor.module.css";
 export default function Editor() {
-  // Creates a new editor instance with initial content
-  const editor = useCreateBlockNote({
-    initialContent: [
-      { type: "paragraph", content: "Welcome to this demo!" },
-      { type: "paragraph", content: "Text should now be blue" },
-      { type: "paragraph", content: "Try using the '/' key for options" },
-      { type: "paragraph" },
-    ],
-  });
+  // Creates a new editor instance
+  const editor = useCreateBlockNote();
+  function handleChange() {
+    const blocks = editor.document;
 
+    // Map through each block and log its details
+    blocks.map((block) => {
+      if (block) {
+        console.log(block);
+      }
+    });
+
+    // console.log(editor.document);
+  }
+
+  // Log the content
   return (
     <div>
-      <BlockNoteView editor={editor} className={styles.customEditor} />
+      <Button onClick={handleChange}>Hello</Button>
+      <BlockNoteView editor={editor} />
     </div>
   );
 }

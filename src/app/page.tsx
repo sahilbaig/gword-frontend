@@ -1,12 +1,12 @@
 "use client";
-import LoginForm from "@/components/login-form";
+import LoginPage from "./login/page";
 import { useAuth } from "./context/AuthContext";
 
 export default function Home() {
   const { user, logout } = useAuth();
 
   return (
-    <div className="flex items-center justify-center min-h-screen">
+    <div className="">
       {user ? (
         <div className="p-6 bg-green-500 text-white text-xl rounded-lg">
           <p>Welcome, {user.displayName}!</p>
@@ -18,9 +18,7 @@ export default function Home() {
           </button>
         </div>
       ) : (
-        <div className="text-center">
-          <LoginForm />
-        </div>
+        <LoginPage></LoginPage>
       )}
     </div>
   );

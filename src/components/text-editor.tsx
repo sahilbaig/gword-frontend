@@ -36,14 +36,13 @@ export default function Editor() {
   const saveDraft = async () => {
     try {
       const html = await editor.blocksToHTMLLossy(editor.document);
-      const blocks = editor.document;
 
       const response = await fetch("http://localhost:5000/draft/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ html, blocks }),
+        body: JSON.stringify({ html }),
         credentials: "include",
       });
 

@@ -35,6 +35,28 @@ export default function Editor() {
     }
   };
 
+  const saveDraft = async () => {
+    try {
+      console.log("me called");
+      const html = await editor.blocksToHTMLLossy(editor.document);
+
+      const response = await fetch("http://localhost:5000/draft/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ html }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save draft");
+      }
+    } catch (error) {
+      console.error("Error saving to draft:", error);
+    }
+  };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -43,7 +65,7 @@ export default function Editor() {
 
       {/* TopMenubar with saveToDrive function */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <TopMenubar saveToDrive={saveToDrive} />
+        <TopMenubar saveToDrive={saveToDrive} saveDraft={saveDraft} />
       </div>
 
       {/* BlockNote Editor */}

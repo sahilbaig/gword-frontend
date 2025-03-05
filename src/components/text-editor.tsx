@@ -8,8 +8,6 @@ import { TopMenubar } from "./menu-bar";
 export default function Editor() {
   const editor = useCreateBlockNote();
 
-  // Handle click to log Markdown content
-
   // Save to Google Drive
   const saveToDrive = async () => {
     try {
@@ -37,7 +35,6 @@ export default function Editor() {
 
   const saveDraft = async () => {
     try {
-      console.log("me called");
       const html = await editor.blocksToHTMLLossy(editor.document);
 
       const response = await fetch("http://localhost:5000/draft/save", {

@@ -1,31 +1,55 @@
-"use client"; // Marks this as a Client Component (for Next.js)
+"use client";
 import "@blocknote/core/fonts/inter.css";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
-import { Button } from "./ui/button";
+import { TopMenubar } from "./menu-bar";
 
 export default function Editor() {
-  // Creates a new editor instance
   const editor = useCreateBlockNote();
-  function handleChange() {
-    const blocks = editor.document;
 
-    // Map through each block and log its details
-    blocks.map((block) => {
-      if (block) {
-        console.log(block);
+  // Handle click to log Markdown content
+
+  // Save to Google Drive
+  const saveToDrive = async () => {
+    try {
+      const html = await editor.blocksToHTMLLossy(editor.document);
+
+      const response = await fetch("http://localhost:5000/drive/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ html }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save to drive");
       }
-    });
 
-    // console.log(editor.document);
-  }
+      const data = await response.json();
+      console.log("Saved successfully:", data);
+    } catch (error) {
+      console.error("Error saving to drive:", error);
+    }
+  };
 
-  // Log the content
   return (
-    <div>
-      <Button onClick={handleChange}>Hello</Button>
-      <BlockNoteView editor={editor} />
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <h1>Untitled Document</h1>
+
+      {/* TopMenubar with saveToDrive function */}
+      <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <TopMenubar saveToDrive={saveToDrive} />
+      </div>
+
+      {/* BlockNote Editor */}
+      <div style={{ width: "100%", maxWidth: "800px", marginTop: "16px" }}>
+        <BlockNoteView editor={editor} />
+      </div>
     </div>
   );
 }

@@ -11,19 +11,19 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
-export function TopMenubar({ saveToDrive }: { saveToDrive: () => void }) {
+export function TopMenubar({
+  saveToDrive,
+  saveDraft,
+}: {
+  saveToDrive: () => void;
+  saveDraft: () => void;
+}) {
   return (
     <Menubar>
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MenubarContent>
-          <MenubarItem
-            onClick={() => {
-              console.log("saving to draft");
-            }}
-          >
-            Save Draft
-          </MenubarItem>
+          <MenubarItem onClick={saveDraft}>Save Draft</MenubarItem>
           <MenubarItem onClick={saveToDrive}>Save to Drive</MenubarItem>
           <MenubarSeparator />
           <MenubarSub>

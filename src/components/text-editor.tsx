@@ -36,13 +36,14 @@ export default function Editor() {
   const saveDraft = async () => {
     try {
       const html = await editor.blocksToHTMLLossy(editor.document);
+      const blocks = editor.document;
 
       const response = await fetch("http://localhost:5000/draft/save", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ html }),
+        body: JSON.stringify({ html, blocks }),
         credentials: "include",
       });
 
@@ -54,6 +55,31 @@ export default function Editor() {
     }
   };
 
+  const showDrafts = async () => {
+    try {
+      const response = await fetch("http://localhost:5000/draft/a", {
+        method: "GET",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch drafts");
+      }
+
+      const data = await response.json();
+      if (!data.drafts.length) {
+        console.log("No drafts found");
+        return;
+      }
+
+      // Convert HTML to blocks
+      const blocks = await editor.tryParseHTMLToBlocks(data.drafts[0].html);
+      editor.replaceBlocks(editor.document, blocks);
+    } catch (error) {
+      console.error("Error fetching drafts:", error);
+    }
+  };
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
@@ -62,7 +88,11 @@ export default function Editor() {
 
       {/* TopMenubar with saveToDrive function */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-        <TopMenubar saveToDrive={saveToDrive} saveDraft={saveDraft} />
+        <TopMenubar
+          saveToDrive={saveToDrive}
+          saveDraft={saveDraft}
+          showDrafts={showDrafts}
+        />
       </div>
 
       {/* BlockNote Editor */}

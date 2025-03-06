@@ -32,6 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
+        console.log(`${process.env.NEXT_PUBLIC_API_URL}/api/user`);
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
           credentials: "include",
         }); // Include cookies

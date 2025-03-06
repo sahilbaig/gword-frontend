@@ -49,14 +49,6 @@ export function TopMenubar({
           <MenubarItem onClick={saveDraft}>Save Draft</MenubarItem>
           <MenubarItem onClick={saveToDrive}>Save to Drive</MenubarItem>
           <MenubarSeparator />
-          <MenubarSub>
-            <MenubarSubTrigger>Share</MenubarSubTrigger>
-            <MenubarSubContent>
-              <MenubarItem>Email link</MenubarItem>
-              <MenubarItem>Messages</MenubarItem>
-              <MenubarItem>Notes</MenubarItem>
-            </MenubarSubContent>
-          </MenubarSub>
         </MenubarContent>
       </MenubarMenu>
 

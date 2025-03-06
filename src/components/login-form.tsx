@@ -55,7 +55,12 @@ export default function LoginForm({
               <div className="grid gap-6">
                 <div className="grid gap-3">
                   <Label htmlFor="email">Email</Label>
-                  <Input id="email" type="email" placeholder="m@example.com" />
+                  <Input
+                    id="email"
+                    type="email"
+                    placeholder="Feature coming soon"
+                    disabled
+                  />
                 </div>
                 <div className="grid gap-3">
                   <div className="flex items-center">
@@ -67,7 +72,7 @@ export default function LoginForm({
                       Forgot your password?
                     </a>
                   </div>
-                  <Input id="password" type="password" />
+                  <Input id="password" type="password" disabled />
                 </div>
                 <Button type="submit" className="w-full">
                   Login

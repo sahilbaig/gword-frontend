@@ -1,21 +1,23 @@
-# Google Docs App
+# Google Docs as Notion App
 
-This is a web-based spreadsheet application built using React, Next.js, and ShadCn. It mimics the core functionalities of Google Docs.
+This is a web-based Notion-like document editor built using **React**, **Next.js**, and **ShadCN**. It mimics the core functionalities of Google Docs, allowing users to create and save documents to Google Drive or store drafts for later use.
 
-🔗 **Live Demo**: [Insert your live demo link here]
+🔗 **Live Demo**: [GWord App](https://gword-frontend.vercel.app/)
 
 ## Features
 
-- **Create Documents**: Double-click on any cell to start editing.
+- **Login**: Authenticate using Google OAuth.
+- **Create Docs**: A Notion-like editor for creating and managing documents.
+- **Save as Draft**: Store unfinished documents for later editing.
+- **Save to Google Drive**: Directly upload documents to Google Drive.
 
 ## Pages
 
-- **Home Page**: The main page with the spreadsheet interface.
-- **Dashboard Page**: This page is for managing docs [Create, Read , Update].
+- **Login Page**: The main page featuring the Google OAuth login interface.
+- **Docs Page**: Manage documents (Create, Read, Update).
 
 ## Tech Stack
 
 - **Next.js**: Server-side rendering and static site generation.
 - **React.js**: Component-based UI development.
 - **ShadCN UI**: Prebuilt UI components for styling.
-- **Context API**: Global state management.

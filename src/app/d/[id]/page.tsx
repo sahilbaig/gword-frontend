@@ -1,15 +1,13 @@
 "use client";
 import "@blocknote/mantine/style.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCreateBlockNote } from "@blocknote/react";
 import { BlockNoteView } from "@blocknote/mantine";
-import { Button } from "@/components/ui/button";
+import { TopMenubar } from "@/components/menu-bar";
 
 export default function Docs({ params }: { params: Promise<{ id: string }> }) {
-  // Unwrap the params Promise using React.use()
   const { id } = React.use(params);
 
-  // Create a BlockNote editor instance
   const editor1 = useCreateBlockNote({
     initialContent: [
       {
@@ -19,7 +17,8 @@ export default function Docs({ params }: { params: Promise<{ id: string }> }) {
     ],
   });
 
-  // Fetch data and update editor content automatically on mount
+  const [docTitle, setDoctitle] = useState("Untitled Document");
+
   useEffect(() => {
     const fetchAndSetData = async () => {
       try {
@@ -33,49 +32,86 @@ export default function Docs({ params }: { params: Promise<{ id: string }> }) {
         }
 
         const data = await response.json();
-        console.log("Fetched document data:", data.doc.html);
 
-        // Parse the fetched HTML and update the editor content
-        const html = data.doc.html;
-        const blocks = await editor1.tryParseHTMLToBlocks(html);
+        setDoctitle(data.doc.title);
+        const blocks = await editor1.tryParseHTMLToBlocks(data.doc.html);
         editor1.replaceBlocks(editor1.document, blocks);
       } catch (error) {
         console.error("Error fetching document:", error);
       }
     };
 
-    fetchAndSetData(); // Call the function to fetch and set data
-  }, [id, editor1]); // Run this effect when `id` or `editor1` changes
+    fetchAndSetData();
+  }, [id, editor1]);
+
+  const saveDraft = async () => {
+    console.log(id, "this is id");
+    try {
+      const html = await editor1.blocksToHTMLLossy(editor1.document);
+
+      const response = await fetch("http://localhost:5000/draft/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: docTitle, html, id }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save draft");
+      }
+    } catch (error) {
+      console.error("Error saving to draft:", error);
+    }
+  };
+
+  const saveToDrive = async () => {
+    try {
+      const html = await editor1.blocksToHTMLLossy(editor1.document);
+
+      const response = await fetch("http://localhost:5000/drive/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: docTitle, html, id }),
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to save to drive");
+      }
+
+      console.log("Saved successfully");
+    } catch (error) {
+      console.error("Error saving to drive:", error);
+    }
+  };
 
   return (
-    <div>
-      <h1>Dashboard for ID: {id}</h1>
-      <Button
-        onClick={async () => {
-          try {
-            const response = await fetch(`http://localhost:5000/doc/${id}`, {
-              method: "GET",
-              credentials: "include",
-            });
-
-            if (!response.ok) {
-              throw new Error("Failed to fetch document");
-            }
-
-            const data = await response.json();
-            console.log("Fetched document data:", data.doc.html);
-
-            // Parse the fetched HTML and update the editor content
-            const html = data.doc.html;
-            const blocks = await editor1.tryParseHTMLToBlocks(html);
-            editor1.replaceBlocks(editor1.document, blocks);
-          } catch (error) {
-            console.error("Error fetching document:", error);
-          }
+    <div
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <input
+        type="text"
+        value={docTitle}
+        onChange={(e) => setDoctitle(e.target.value)}
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          textAlign: "center",
+          border: "none",
+          outline: "none",
+          width: "100%",
+          maxWidth: "600px",
+          marginBottom: "10px",
+          background: "transparent",
         }}
-      >
-        Fetch and Log
-      </Button>
+      />
+
+      <TopMenubar saveToDrive={saveToDrive} saveDraft={saveDraft} />
+
       <div style={{ width: "100%", maxWidth: "800px", marginTop: "16px" }}>
         <BlockNoteView editor={editor1} />
       </div>

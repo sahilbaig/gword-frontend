@@ -87,6 +87,7 @@ export default function Editor() {
 
       {/* TopMenubar with saveToDrive function */}
       <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+        <h1>Untitled Document</h1>
         <TopMenubar
           saveToDrive={saveToDrive}
           saveDraft={saveDraft}

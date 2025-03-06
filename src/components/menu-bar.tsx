@@ -12,6 +12,8 @@ import {
   MenubarTrigger,
 } from "@/components/ui/menubar";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export function TopMenubar({
   saveToDrive,
   saveDraft,
@@ -24,7 +26,7 @@ export function TopMenubar({
 
   const fetchDrafts = async () => {
     try {
-      const response = await fetch("http://localhost:5000/draft/user", {
+      const response = await fetch(`${API_URL}/draft/user`, {
         method: "GET",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

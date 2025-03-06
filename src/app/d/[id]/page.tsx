@@ -7,6 +7,7 @@ import { TopMenubar } from "@/components/menu-bar";
 
 export default function Docs({ params }: { params: Promise<{ id: string }> }) {
   const { id } = React.use(params);
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const editor1 = useCreateBlockNote({
     initialContent: [
@@ -22,7 +23,7 @@ export default function Docs({ params }: { params: Promise<{ id: string }> }) {
   useEffect(() => {
     const fetchAndSetData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/doc/${id}`, {
+        const response = await fetch(`${API_URL}/doc/${id}`, {
           method: "GET",
           credentials: "include",
         });
@@ -42,14 +43,14 @@ export default function Docs({ params }: { params: Promise<{ id: string }> }) {
     };
 
     fetchAndSetData();
-  }, [id, editor1]);
+  }, [id, editor1, API_URL]);
 
   const saveDraft = async () => {
     console.log(id, "this is id");
     try {
       const html = await editor1.blocksToHTMLLossy(editor1.document);
 
-      const response = await fetch("http://localhost:5000/draft/save", {
+      const response = await fetch(`${API_URL}/draft/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +71,7 @@ export default function Docs({ params }: { params: Promise<{ id: string }> }) {
     try {
       const html = await editor1.blocksToHTMLLossy(editor1.document);
 
-      const response = await fetch("http://localhost:5000/drive/save", {
+      const response = await fetch(`${API_URL}/drive/save`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

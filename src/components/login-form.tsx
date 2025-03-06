@@ -15,9 +15,11 @@ export default function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
   function handleGoogleClick(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    window.location.href = "http://localhost:5000/auth/google";
+    window.location.href = `${API_URL}/auth/google`;
   }
 
   return (

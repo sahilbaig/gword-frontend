@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch("http://localhost:5000/api/user", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/user`, {
           credentials: "include",
         }); // Include cookies
         if (!res.ok) throw new Error("Not authenticated");
@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const logout = async () => {
     try {
-      await fetch("http://localhost:5000/api/logout", {
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/logout`, {
         method: "POST",
         credentials: "include",
       }); // Call the backend to clear the token

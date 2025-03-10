@@ -3,7 +3,7 @@
 This is a web-based Notion-like document editor built using **React**, **Next.js**, and **ShadCN**. It mimics the core functionalities of Google Docs, allowing users to create and save documents to Google Drive or store drafts for later use.
 
 🔗 **Live Demo**: [GWord App](https://gword-frontend.vercel.app/)
-🔗 **Backend**:   [GWord App](https://github.com/sahilbaig/gword-backend)
+🔗 **Backend**:   [Backend](https://github.com/sahilbaig/gword-backend)
 
 
 ## Features
